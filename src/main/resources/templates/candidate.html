@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Candidate</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/candidate.css}"/>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-content">
+    </div>
+</header>
+
+<div class="container">
+    <div class="sidebar">
+        <h3>Candidate Information</h3>
+        <p><strong>Full Name:</strong> <span th:text="${candidate.fullName}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${candidate.email}"></span></p>
+        <p><strong>Phone:</strong> <span th:text="${candidate.phone}"></span></p>
+        <p><strong>Date of Birth:</strong> <span th:text="${dob}"></span></p>
+        <p><strong>Address:</strong> <span th:text="${candidate.address.number}"></span>
+            <span th:text="${candidate.address.street}"></span>
+            <span th:text="${candidate.address.city}"></span>
+            <span th:text="${candidate.address.zipcode}"></span></p>
+        <p><strong>Skills:</strong></p>
+        <ul th:each="entry : ${skillsByType}">
+            <li>
+                <strong th:text="${entry.key}">Skill Type</strong>
+                <ul>
+                    <li th:each="candidateSkill : ${entry.value}">
+                        <span th:text="${candidateSkill.skill.skillName}">Skill Name</span>
+                        (<span th:text="${candidateSkill.skillLevel}">Skill Level</span>)
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-job">
+        <div th:each="job : ${jobs}" class="job-card">
+            <div>
+                <p class="job-name">Job name: <span th:text="${job.getJobName()}"></span></p>
+                <p class="skills">Skills: <span th:text="${job.getSkillString()}"></span></p>
+                <p class="comp-name">Company: <span th:text="${job.getCompany().getCompName()}"></span></p>
+                <p class="comp-address">Address: <span th:text="${job.company.address.number}"></span>
+                    <span th:text="${job.company.address.street}"></span>
+                    <span th:text="${job.company.address.city}"></span>
+                    <span th:text="${job.company.address.zipcode}"></span></p>
+            </div>
+            <div style="text-align: end">
+                <button class="btn-apply">Apply</button>
+                <!--                <button class="btn-detail">Detail</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+/* header */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #cbcbcb;
+}
+
+.header {
+    background-color: #343a40;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.header-content {
+    max-width: 1300px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-content .nav {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav span {
+    color: #007bff;
+    margin-left: 5px;
+    margin-top: initial;
+}
+
+.company-info {
+    max-width: 70%;
+}
+
+.company-name {
+    font-size: 1.8em;
+    margin: 0;
+    font-weight: bold;
+}
+
+.company-details {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.company-details a {
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+.company-details a:hover {
+    text-decoration: underline;
+}
+
+/* content */
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.container form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 0 auto;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 30px;
+}
+
+.left-column {
+    flex: 1;
+}
+
+.right-column {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, textarea {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.btn-add-skill,
+.submit-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-container {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding: 20px 20px;
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}

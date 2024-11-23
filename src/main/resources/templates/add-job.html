@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Job</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/add-job.css}"/>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-content">
+        <div class="nav">
+            <a th:href="@{'/company?id=' + ${company.id}}" class="back-link">Home / </a>
+            <span th:text="${job.id} == null ? 'Post Job' : 'Update Job'">Post Job</span>
+        </div>
+        <div class="company-info">
+            <h1 class="company-name" th:text="${company.compName}">Company Name</h1>
+            <p class="company-details">
+                <span>Email: </span><a href="mailto:info@company.com" th:text="${company.email}">info@company.com</a> |
+                <span>Phone: </span><a href="tel:+123456789" th:text="${company.phone}">+123 456 789</a> |
+                <span>Address: </span><span th:text="${company.address.number}">123 Street, City, Country</span>
+                <span th:text="${company.address.street}">123 Street, City, Country</span>
+                <span th:text="${company.address.city}">123 Street, City, Country</span>
+                <span th:text="${company.address.zipcode}">123 Street, City, Country</span>
+            </p>
+        </div>
+    </div>
+</header>
+
+<div class="container mt-5">
+    <h2 class="text-center">Job Information</h2>
+    <form th:action="@{'/company/save-job'}" method="post" th:object="${job}" class="needs-validation" novalidate>
+        <div class="form-container">
+            <div class="left-column">
+                <div class="form-group">
+                    <label for="jobName">Job Name</label>
+                    <input type="text" id="jobName" th:field="*{jobName}" class="form-control"
+                           placeholder="Enter Job Name" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobDesc">Job Description</label>
+                    <textarea id="jobDesc" th:field="*{jobDesc}" class="form-control"
+                              placeholder="Enter Job Description" required></textarea>
+                </div>
+
+                <div class="form-group" id="skillLevelDiv">
+
+                    <label for="selectedSkills">Selected Skills</label>
+                    <div>
+                        <ul id="selectedSkills">
+                            <li th:each="skill : ${selectedSkills}">
+                                Skill: <span id="skillName" th:text="${skill.getSkill().getSkillName()}"></span>,
+                                Level: <span id="skillLevels" th:text="${skill.skillLevel}"></span>,
+                                More Infos: <span id="info" th:text="${skill.moreInfos}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="form-group">
+                    <label for="skills">Skills</label>
+                    <select id="skills" name="skills" class="form-control" required>
+                        <option th:each="skill : ${skills}" th:value="${skill.id}"
+                                th:text="${skill.skillName}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="skillLevel">Skill Level</label>
+                    <select id="skillLevel" name="skillLevel" class="form-control" required>
+                        <option value="BEGINNER">BEGINNER</option>
+                        <option value="INTERMEDIATE">INTERMEDIATE</option>
+                        <option value="ADVANCED">ADVANCED</option>
+                        <option value="MASTER">MASTER</option>
+                        <option value="PROFESSIONAL">PROFESSIONAL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="moreInfos">More Infos</label>
+                    <textarea id="moreInfos" class="form-control" placeholder="Enter More Infos" required></textarea>
+                </div>
+
+                <div class="btn-add-skill">
+                    <button type="button" id="addSkillButton" class="btn btn-success"
+                            th:attr="disabled=${show == false} ? 'disabled' : null">Add skill</button>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" id="selectedSkillsData" name="selectedSkillsData"/>
+        <input type="hidden" th:field="*{company.id}" th:value="${company.id}"/>
+        <input type="hidden" th:field="${job.id}" th:value="${job.id}" id="jobId"/>
+        <div class="submit-container">
+            <button type="submit" class="btn btn-success">
+                <span id="action" th:text="${job.id} == null ? 'Save Job' : 'Update Job'"></span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    let selectedSkills = [];
+
+    function addSkill() {
+        const skillSelect = document.getElementById('skills');
+        const skillId = skillSelect.value;
+        const skillName = skillSelect.options[skillSelect.selectedIndex].text;
+        const skillLevel = document.getElementById('skillLevel').value;
+        const moreInfos = document.getElementById('moreInfos').value;
+
+        const skillData = {
+            skillId: skillId,
+            skills: skillName,
+            skillLevel: skillLevel,
+            moreInfos: moreInfos
+        };
+
+        selectedSkills.push(skillData);
+
+        displaySelectedSkills();
+        document.getElementById('selectedSkillsData').value = JSON.stringify(selectedSkills);
+    }
+
+    function removeSkill(index) {
+        selectedSkills.splice(index, 1);
+        displaySelectedSkills();
+        document.getElementById('selectedSkillsData').value = JSON.stringify(selectedSkills);
+    }
+
+    function displaySelectedSkills() {
+        const resultList = document.getElementById('selectedSkills');
+        resultList.innerHTML = '';
+
+        selectedSkills.forEach((item, index) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Skill: ${item.skills}, Level: ${item.skillLevel}, More Infos: ${item.moreInfos}`;
+            const removeIcon = document.createElement('i');
+            removeIcon.className = 'fa-solid fa-xmark';
+            removeIcon.style.cursor = 'pointer';
+            removeIcon.style.marginLeft = '20px';
+            removeIcon.style.color = 'red';
+            removeIcon.onclick = () => removeSkill(index);
+
+            listItem.appendChild(removeIcon);
+            resultList.appendChild(listItem);
+        });
+    }
+
+    document.getElementById('addSkillButton').addEventListener('click', addSkill);
+    // displaySelectedSkills();
+</script>
+
+</body>
+</html>
