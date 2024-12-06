@@ -7,25 +7,88 @@ body {
 /* header */
 .header {
     background-color: #343a40;
-    color: white;
     padding: 15px 0;
     text-align: center;
-    height: 90px;
 }
 
 .header-content {
     max-width: 1300px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     margin: 0 auto;
     align-items: center;
     flex-wrap: wrap;
 }
 
+.menu {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #cbcbcb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.menu a:hover {
+    color: #3a94ed;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+    width: 200px;
+}
+
+.search-button {
+    padding: 6px 12px;
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-button:hover {
+    background-color: #138496;
+}
+
+.btn-logout a {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-logout p {
+    margin: 0;
+}
+
 .container {
     display: flex;
     justify-content: space-between;
-    max-width: 1300px;
     margin: 40px auto;
     gap: 29px;
 
@@ -60,8 +123,7 @@ body {
 .job-card {
     background-color: white;
     width: 320px;
-    /*height: 170px;*/
-    padding: 10px 15px;
+    padding: 20px 15px;
     border-radius: 5px;
     margin-left: 10px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
@@ -83,4 +145,32 @@ body {
 
 .job-card button:hover {
     background-color: #0056b3;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pagination ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pagination ul li a {
+    text-decoration: none;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #333;
+    border-radius: 50%;
+}
+
+.pagination ul li a.active {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
 }

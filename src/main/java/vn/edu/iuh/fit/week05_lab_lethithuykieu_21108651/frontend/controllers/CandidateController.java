@@ -33,7 +33,13 @@ public class CandidateController {
     private ModelMapper modelMapper;
 
     @GetMapping()
-    public String getJobs(Model model, @RequestParam("id") Long id) {
+    public String getCandidateJobs(
+            @RequestParam Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "9") int size,
+            Model model
+    ) {
+
 //        Hiển thị thông tin candidate
         Candidate candidate = candidateService.findById(id);
         model.addAttribute("candidate", candidate);
@@ -50,14 +56,12 @@ public class CandidateController {
 
         skillService.getCandidateSkillsByCandidateId(id).forEach(candidateSkill -> {
             skillService.getJobSkillsBySkillId(candidateSkill.getSkill().getId()).forEach(jobSkill -> {
-                if (listJob.containsKey(jobSkill.getJob().getId())) {
-                    listJob.put(jobSkill.getJob().getId(), listJob.get(jobSkill.getJob().getId()) + 1);
-                } else {
-                    listJob.put(jobSkill.getJob().getId(), 1);
-                }
+                listJob.merge(jobSkill.getJob().getId(), 1, Integer::sum);
             });
         });
-        Map<Long,Integer> listJobSort = listJob.entrySet()
+
+        // Sắp xếp và chuyển sang danh sách ID
+        Map<Long, Integer> listJobSort = listJob.entrySet()
                 .stream()
                 .sorted(Map.Entry.<Long, Integer>comparingByValue().reversed())
                 .collect(Collectors.toMap(
@@ -66,24 +70,36 @@ public class CandidateController {
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
-        ArrayList<Long> listJobId = new ArrayList<>(listJobSort.keySet());
+        List<Long> listJobId = new ArrayList<>(listJobSort.keySet());
 
-        List<Job> jobs = listJobId.stream().map(jobService::findById).toList();
-        List<JobDto> jobDtos= jobs.stream().map((element) -> modelMapper.map(element, JobDto.class)).toList();
-        jobDtos.forEach(jobDto -> {
+        // Phân trang thủ công
+        int startIndex = page * size;
+        int endIndex = Math.min(startIndex + size, listJobId.size());
+        List<Long> paginatedJobIds = listJobId.subList(startIndex, endIndex);
 
-            jobDto.setSkills(skillService.getSkillsByJobId(jobDto.getId()));
-            List<String> skillString = new ArrayList<>();
-            jobDto.getSkills().forEach(skill ->{
-                skillString.add(skill.getSkillName()+" ("+skillService.getJobSkillById(new JobSkillId(jobDto.getId(),skill.getId())).getSkillLevel()+")");
-            });
-            jobDto.setSkillString(String.join(", ",skillString));
-        });
+        // Tạo danh sách JobDtos từ các ID phân trang
+        List<Job> jobs = paginatedJobIds.stream().map(jobService::findById).toList();
+        List<JobDto> jobDtos = jobs.stream().map(job -> {
+            JobDto jobDto = modelMapper.map(job, JobDto.class);
+            jobDto.setSkills(skillService.getSkillsByJobId(job.getId()));
+            List<String> skillString = jobDto.getSkills().stream()
+                    .map(skill -> skill.getSkillName() + " (" +
+                            skillService.getJobSkillById(new JobSkillId(job.getId(), skill.getId())).getSkillLevel() + ")")
+                    .toList();
+            jobDto.setSkillString(String.join(", ", skillString));
+            return jobDto;
+        }).toList();
 
+        // Tính tổng số trang
+        int totalPages = (int) Math.ceil((double) listJobId.size() / size);
+
+        model.addAttribute("id", id);
+        model.addAttribute("size", size);
         model.addAttribute("jobs", jobDtos);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
 
         return "candidate";
     }
-
 
 }
