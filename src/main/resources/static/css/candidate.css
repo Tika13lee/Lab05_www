@@ -20,15 +20,11 @@ body {
     flex-wrap: wrap;
 }
 
-.menu {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-}
-
-.menu a {
+.title p {
     color: white;
-    text-decoration: none;
+    margin-top: 15px;
+    font-size: 24px;
+    font-weight: 700;
 }
 
 .avatar {
