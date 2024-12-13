@@ -5,7 +5,7 @@
 - **Họ và tên:** Lê Thị Thúy Kiều
 - **Mã sinh viên:** 21108651
 - **Lớp:** DHKTPM17C
-- **Môn học:** Lập trình www với công nghê java - IUH - DHKTPM17A
+- **Môn học:** Lập trình www với công nghệ java - IUH - DHKTPM17A
 - **Giảng viên:** TS Võ Văn Hải
 
 [Link Github](https://github.com/Tika13lee/Lab05_www)
