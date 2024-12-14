@@ -63,9 +63,61 @@
                 <p><strong>Address : </strong><span th:text="${candidate.address.toString()}"></span></p>
                 <p><strong>Candidate Skills: </strong><span th:text="${candidate.skillString}"></span></p>
                 <div style="text-align: end">
-                    <button class="btn-sent">Sent mail</button>
+                    <button class="btn-sent" data-bs-toggle="modal" data-bs-target="#sendMailModal">Send mail</button>
+                    <div class="modal fade" id="sendMailModal" tabindex="-1" aria-labelledby="sendMailModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="sendMailModalLabel">Send Mail</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="sendMailForm" th:action="@{/company/send}" method="post">
+                                        <input type="hidden" name="jobId" th:value="${job.id}" />
+                                        <div class="mb-3 text-start">
+                                            <label for="sender" class="form-label"><strong>Sender</strong></label>
+                                            <input type="email" class="form-control" id="sender" name="sender"
+                                                   placeholder="Enter sender email" required
+                                                   th:value="${company.email}" readonly>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="recipient" class="form-label"><strong>Recipient</strong></label>
+                                            <input type="email" class="form-control" id="recipient" name="recipient"
+                                                   placeholder="Enter recipient email" required
+                                                   th:value="${candidate.email}" readonly>
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="subject" class="form-label"><strong>Subject</strong></label>
+                                            <input type="text" class="form-control" id="subject" name="subject"
+                                                   placeholder="Enter subject" required
+                                                   value="Invitation to a Suitable Job Opportunity">
+                                        </div>
+                                        <div class="mb-3 text-start">
+                                            <label for="message" class="form-label"><strong>Message</strong></label>
+                                            <textarea class="form-control" id="message" rows="7" name="message"
+                                                      placeholder="Enter your message" required>Dear [[${candidate.name}]],
+We are excited to invite you to apply for a job opportunity at our company that matches your skills and expertise. We believe you would be a great fit for our team and look forward to your application.
+Best regards,
+[[${company.compName}]]</textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" form="sendMailForm">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div th:if="${message}">
+                <div class="alert alert-info" role="alert" th:text="${message}"></div>
+            </div>
+
         </div>
     </div>
     <div th:switch="${cans}" class="table-container">
