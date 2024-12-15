@@ -10,7 +10,9 @@
 
 [Link Github](https://github.com/Tika13lee/Lab05_www)
 
-[Link LeThiThuyKieu_21108651_Report](https://docs.google.com/document/d/1f7qCbTjiAhO3QwVGwuSJX3YV2_OhLdyzQzibuuI0A9U/edit?tab=t.0#heading=h.tzuotsfng98s)
+[Link LeThiThuyKieu_21108651_Word](https://docs.google.com/document/d/1f7qCbTjiAhO3QwVGwuSJX3YV2_OhLdyzQzibuuI0A9U/edit?tab=t.0#heading=h.tzuotsfng98s)
+
+[Link LeThiThuyKieu_21108651_Presentation](https://docs.google.com/presentation/d/1nLwmVl23pHvJAAuHOfyDP6OUnHQQeclFu1WOWfyCHfY/edit#slide=id.g324078bbf10_0_1303)
 
 ## Kết quả đạt được
 
@@ -38,10 +40,22 @@ Mở trình duyệt và truy cập vào địa chỉ http://localhost:8080
     - Chọn `Home` để quay lại trang chủ
 - **Trang xem các ứng viên phù hợp với công việc theo kỹ năng:** hiển thị thông tin công việc và ứng viên phù hợp với
   công việc
-  *(các ứng viên đã được sắp xếp theo mức độ nhiều kỹ năng phù hợp với công việc nhất)*
+  *(các ứng viên đã được sắp xếp theo mức độ nhiều kỹ năng phù hợp với kỹ năng của công việc nhất)*
   ![view-candidate](https://i.ibb.co/2nG355Y/view-candidates.png)
     - Chọn biểu tượng ở cột `Detail` để xem thông tin ứng viên
-    - Chọn `Sent mail` để gửi mail cho ứng viên
+    - Hiển thị thông tin ứng viên, chọn `Send mail` để gửi mail cho ứng viên
     - Chọn `Home` để quay lại trang chủ
+- **Modal gửi mail:**
+  ![send-mail](https://i.ibb.co/dQbThbV/send-mail.png)
+    - Thông tin email của công ty và ứng viên đã được điền sẵn không thể chỉnh sửa
+    - Tiêu đề và nội dung mail được tự động điền sẵn nhưng có thể chỉnh sửa
+    - Chọn `Send` để gửi mail
+    - Chọn `Close` để đóng modal
 
 ### 2. Đăng nhập với vai trò candidate
+
+- **Trang chủ:** hiển thị thông tin của ứng viên và các công việc phù hợp với kỹ năng của ứng viên
+    *(các công việc đã được sắp xếp theo mức độ nhiều kỹ năng phù hợp với kỹ năng của ứng viên nhất)*
+  ![candidate-home](https://i.ibb.co/MRnRzTQ/candidate.png)
+    - Chọn `Apply` để ứng tuyển công việc (chưa hoàn thành)
+    - Chọn `Logout` để đăng xuất
